@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -32,6 +33,15 @@ func Exec(ctx context.Context, args Args) error {
 	}
 
 	for _, o := range args.Output {
+		// If the output spec contains a file path (FORMAT=FILE), resolve it to an absolute path.
+		if idx := strings.Index(o, "="); idx >= 0 {
+			filePath := o[idx+1:]
+			if !filepath.IsAbs(filePath) {
+				if wd, err := os.Getwd(); err == nil {
+					o = o[:idx+1] + filepath.Join(wd, filePath)
+				}
+			}
+		}
 		cmdArgs = append(cmdArgs, "--output", o)
 	}
 
