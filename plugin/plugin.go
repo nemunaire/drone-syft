@@ -43,7 +43,12 @@ func Exec(ctx context.Context, args Args) error {
 		cmdArgs = append(cmdArgs, "--source-version", sourceVersion)
 	}
 
-	cmd := exec.CommandContext(ctx, "syft", cmdArgs...)
+	syftBin := "syft"
+	if _, err := os.Stat("/syft"); err == nil {
+		syftBin = "/syft"
+	}
+
+	cmd := exec.CommandContext(ctx, syftBin, cmdArgs...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	trace(cmd)
