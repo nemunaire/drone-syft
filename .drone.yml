@@ -1,0 +1,69 @@
+---
+kind: pipeline
+type: docker
+name: build-amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: publish on Docker Hub
+    image: plugins/docker
+    settings:
+      repo: nemunaire/drone-syft
+      auto_tag: true
+      auto_tag_suffix: ${DRONE_STAGE_OS}-${DRONE_STAGE_ARCH}
+      dockerfile: Dockerfile
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+---
+kind: pipeline
+type: docker
+name: build-arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+  - name: publish on Docker Hub
+    image: plugins/docker
+    settings:
+      repo: nemunaire/drone-syft
+      auto_tag: true
+      auto_tag_suffix: ${DRONE_STAGE_OS}-${DRONE_STAGE_ARCH}
+      dockerfile: Dockerfile
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+---
+kind: pipeline
+name: docker-manifest
+
+steps:
+  - name: publish on Docker Hub
+    image: plugins/manifest
+    settings:
+      auto_tag: true
+      ignore_missing: true
+      spec: .drone-manifest.yml
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+trigger:
+  event:
+    - cron
+    - push
+    - tag
+
+depends_on:
+  - build-amd64
+  - build-arm64

@@ -1,0 +1,83 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "Image",
+              "url": "https://cdn-dllid.nitrocdn.com/lfaFdmeTaONuMeYAvisIiEiZRrNJpVpd/assets/images/source/rev-954346f/anchore.com/wp-content/uploads/2023/01/logo-1.svg",
+              "size": "Small"
+            }
+          ],
+          "width": "auto"
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "Plugin: Syft",
+              "wrap": true,
+              "size": "Small",
+              "weight": "Bolder",
+              "isSubtle": false,
+              "spacing": "Small"
+            },
+            {
+              "type": "TextBlock",
+              "text": "Source: ${$root.sourceName}",
+              "wrap": true,
+              "size": "Small",
+              "weight": "Lighter",
+              "isSubtle": true,
+              "spacing": "Small"
+            }
+          ],
+          "width": "stretch"
+        }
+      ],
+      "style": "default"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "TextBlock",
+              "size": "Small",
+              "text": "Version: ${$root.sourceVersion}",
+              "wrap": true,
+              "spacing": "None"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "separator": true,
+          "spacing": "Medium",
+          "items": [
+            {
+              "type": "TextBlock",
+              "size": "Small",
+              "text": "Packages: ${formatNumber($root.packageCount, 0)}",
+              "wrap": true,
+              "spacing": "None"
+            }
+          ]
+        }
+      ],
+      "style": "default",
+      "separator": true
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.5"
+}
